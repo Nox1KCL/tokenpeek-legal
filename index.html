@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TokenPeek — CSS Inspector, Tailwind v4 Converter &amp; Design Token Extractor for Chrome</title>
+  <meta name="description" content="100% local-first Chrome extension for unlimited live CSS inspection, 1-click Tailwind v4 conversion, W3C &amp; Figma Design Token export, AI prompts, and client-side vector Brand Styleguide PDFs.">
+  <link rel="canonical" href="[GITHUB_PAGES_BASE_URL]/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%235752e4'/%3E%3Cstop offset='100%25' stop-color='%2387d2fe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M9 11h14v3h-5.5v9h-3v-9H9v-3z' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f7f8fc;
+      --surface: #ffffff;
+      --surface-muted: #f4f5fb;
+      --text: #111420;
+      --muted: #525b70;
+      --border: #e1e5f0;
+      --border-strong: #cdd4e6;
+      --accent: #5752e4;
+      --accent-hover: #4741d1;
+      --accent-cyan: #87d2fe;
+      --accent-soft: rgba(87, 82, 228, 0.09);
+      --accent-ring: rgba(87, 82, 228, 0.25);
+      --ok: #147a42;
+      --ok-soft: rgba(20, 122, 66, 0.1);
+      --code-bg: #eef0f8;
+      --shadow-sm: 0 2px 8px rgba(17, 20, 32, 0.04);
+      --shadow-md: 0 14px 36px rgba(87, 82, 228, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0c0e14;
+        --bg-subtle: #11141d;
+        --surface: #141824;
+        --surface-muted: #181d2c;
+        --text: #f0f3fa;
+        --muted: #9aa4ba;
+        --border: #252c3f;
+        --border-strong: #353f59;
+        --accent: #6c67f0;
+        --accent-hover: #7c77f5;
+        --accent-cyan: #87d2fe;
+        --accent-soft: rgba(87, 82, 228, 0.2);
+        --accent-ring: rgba(135, 210, 254, 0.28);
+        --ok: #5cd48c;
+        --ok-soft: rgba(92, 212, 140, 0.14);
+        --code-bg: #1c2233;
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.28);
+        --shadow-md: 0 16px 42px rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light dark;
+      scroll-behavior: smooth;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      padding: 0 20px 72px;
+      background-image: radial-gradient(760px 340px at 50% -80px, rgba(87, 82, 228, 0.12), transparent 72%);
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: var(--accent);
+      text-underline-offset: 3px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.87em;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+
+    /* Header */
+    header.site-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 750;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #5752e4, #87d2fe);
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(87, 82, 228, 0.35);
+    }
+
+    nav.site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav.site-nav a {
+      padding: 6px 11px;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    nav.site-nav a:hover {
+      background: var(--surface-muted);
+      color: var(--text);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 9px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #5752e4 0%, #4b46d6 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(87, 82, 228, 0.32);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4b46d6 0%, #3f3ac7 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: var(--surface-muted);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 56px 0 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pill-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-muted);
+      color: var(--muted);
+    }
+
+    .pill.accent {
+      border-color: rgba(87, 82, 228, 0.32);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .pill.ok {
+      border-color: rgba(20, 122, 66, 0.25);
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .pill.accent {
+        color: var(--accent-cyan);
+        border-color: rgba(135, 210, 254, 0.3);
+      }
+    }
+
+    h1 {
+      margin: 0 auto 16px;
+      max-width: 18ch;
+      font-size: clamp(2.1rem, 4.6vw, 3.15rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, #5752e4 15%, #379de6 65%, #87d2fe 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .gradient-text {
+        background: linear-gradient(120deg, #8e8aff 10%, #87d2fe 95%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+
+    .hero-lead {
+      margin: 0 auto 28px;
+      max-width: 62ch;
+      font-size: 1.07rem;
+      color: var(--muted);
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .hero-meta {
+      margin: 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* Section typography */
+    section.block {
+      padding: 56px 0 0;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .eyebrow {
+        color: var(--accent-cyan);
+      }
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.75rem;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+    }
+
+    .section-sub {
+      margin: 0 auto;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* Free vs Pro Feature Split */
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-panel.pro {
+      border-color: rgba(87, 82, 228, 0.42);
+      background: linear-gradient(180deg, rgba(87, 82, 228, 0.06) 0%, var(--surface) 45%);
+    }
+
+    .panel-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-badge.free {
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .panel-badge.pro {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .panel-badge.pro {
+        color: var(--accent-cyan);
+      }
+    }
+
+    .feature-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.22rem;
+      letter-spacing: -0.015em;
+    }
+
+    .feature-panel p.panel-desc {
+      margin: 0 0 18px;
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+
+    .check-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 11px;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 24px;
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .check-list li::before {
+        color: var(--accent-cyan);
+      }
+    }
+
+    /* Pricing Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .price-card.featured {
+      border: 2px solid #5752e4;
+      box-shadow: var(--shadow-md);
+    }
+
+    .popular-tag {
+      position: absolute;
+      top: -12px;
+      left: 22px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #5752e4, #4c7df0);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tier-name {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .tier-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tier-price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .tier-cadence {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .tier-tagline {
+      margin: 0 0 18px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 2.8em;
+    }
+
+    .price-card .check-list {
+      margin-bottom: 22px;
+      flex: 1;
+      gap: 9px;
+    }
+
+    .price-card .check-list li {
+      font-size: 0.89rem;
+    }
+
+    .price-card .btn {
+      width: 100%;
+    }
+
+    .pricing-footnote {
+      margin: 20px 0 0;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-item h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .faq-item p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px 24px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 840px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 460px;
+        margin: 0 auto;
+      }
+
+      .tier-tagline {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .split-grid,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 40px 0 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span>TokenPeek</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="./privacy.html">Privacy</a>
+        <a href="./terms.html">Terms</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="pill-row">
+          <span class="pill ok">100% Local-First</span>
+          <span class="pill accent">Chrome MV3 · Zero &lt;all_urls&gt;</span>
+          <span class="pill">No Account Required</span>
+          <span class="pill">One-Time Lifetime Pro</span>
+        </div>
+        <h1>
+          Inspect CSS, Convert to <span class="gradient-text">Tailwind v4</span> &amp; Export Design Tokens
+        </h1>
+        <p class="hero-lead">
+          TokenPeek is a 100% local-first Chrome extension for unlimited live CSS inspection, 1-click Clean CSS &amp;
+          Tailwind v4 class conversion, W3C &amp; Figma Design Token export, compact AI coding prompts, and client-side
+          vector Brand Styleguide PDFs.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="[CHROME_WEB_STORE_URL]" target="_blank" rel="noopener noreferrer">
+            Install on Chrome Web Store &rarr;
+          </a>
+          <a class="btn btn-secondary" href="#pricing">
+            View Lifetime Pricing
+          </a>
+        </div>
+        <p class="hero-meta">
+          Runs strictly on click via <code>activeTab</code> &middot; Zero tracking &middot; Zero subscriptions
+        </p>
+      </section>
+
+      <section id="features" class="block">
+        <div class="section-head">
+          <span class="eyebrow">Built for Frontend Engineers, Designers &amp; Agencies</span>
+          <h2>Unlimited Free Inspector. One-Time Lifetime Pro.</h2>
+          <p class="section-sub">
+            Everything executes inside an isolated Shadow DOM HUD directly in your browser — never uploading inspected
+            pages, styles, or custom logos to any server.
+          </p>
+        </div>
+
+        <div class="split-grid">
+          <div class="feature-panel">
+            <span class="panel-badge free">Free Forever</span>
+            <h3>Unlimited Live CSS &amp; Token Inspector</h3>
+            <p class="panel-desc">
+              No daily caps, no sign-in walls, and zero outbound network requests on the Free tier.
+            </p>
+            <ul class="check-list">
+              <li><strong>60fps Hover Inspector &amp; Box-Model HUD:</strong> Live margin, border, padding, content dimensions, computed fonts, and colors.</li>
+              <li><strong>Keyboard-First DOM Navigation:</strong> Walk parents, children, and siblings with <code>&uarr;&darr;&larr;&rarr;</code>, pin with <code>Space</code>/<code>Enter</code>, copy with <code>C</code>, exit with <code>Esc</code>.</li>
+              <li><strong>Open Shadow DOM Targeting:</strong> Inspects nested elements inside modern Web Components and UI kits.</li>
+              <li><strong>1-Click Clean CSS &amp; Tailwind v4 (Element):</strong> Subtracts browser defaults and redundant inherited rules, keeping matching <code>:hover</code> states.</li>
+              <li><strong>Full Page Tokens Drawer:</strong> Perceptually clustered colors (<code>&Delta;E &lt; 2.5</code>) in HEX/OKLCH/HSL with WCAG AA/AAA badges, font scales, radii, and CSS variables.</li>
+              <li><strong>3 Free Brand Styleguide PDFs:</strong> Client-side A4 vector PDF exports (includes TokenPeek footer).</li>
+            </ul>
+          </div>
+
+          <div class="feature-panel pro">
+            <span class="panel-badge pro">TokenPeek Pro</span>
+            <h3>Component Subtrees, AI Prompts &amp; White-Label Exports</h3>
+            <p class="panel-desc">
+              Unlock professional design-system and agency handoff workflows with a single one-time payment.
+            </p>
+            <ul class="check-list">
+              <li><strong>Tailwind v4 Subtree Export (HTML &amp; JSX):</strong> Copy complete multi-element components (up to 4 levels deep, &lt; 25 nodes) with redundant wrappers collapsed and repeated HEX colors promoted to <code>@theme</code> tokens.</li>
+              <li><strong>&#10022; Copy for AI Prompts:</strong> Ultra-compact, low-token JSX + Tailwind v4 + minimal <code>@theme</code> context blocks engineered for Cursor, Claude Code, and Windsurf.</li>
+              <li><strong>Full Design System Exports (Copy &amp; Download):</strong> Export W3C Design Tokens (<code>tokens.json</code>), Tailwind v4 <code>@theme</code> CSS, and Figma Variables JSON in one click.</li>
+              <li><strong>Unlimited White-Label Brand Styleguide PDFs:</strong> Remove the TokenPeek footer and embed your custom PNG or JPG agency logo locally in memory.</li>
+              <li><strong>Transfer Between Browsers Anytime:</strong> Click <em>Deactivate on this browser</em> inside TokenPeek to instantly release a device slot and move to another machine.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="block">
+        <div class="section-head">
+          <span class="eyebrow">Simple, Transparent Pricing</span>
+          <h2>Pay Once. Own TokenPeek Pro Forever.</h2>
+          <p class="section-sub">
+            No monthly subscriptions, no user accounts, and a fair 14-day money-back guarantee on every purchase.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <h3 class="tier-name">Free</h3>
+            <div class="tier-price-row">
+              <span class="tier-price">$0</span>
+              <span class="tier-cadence">forever</span>
+            </div>
+            <p class="tier-tagline">
+              Unlimited daily CSS inspection and single-element Tailwind v4 conversion for everyone.
+            </p>
+            <ul class="check-list">
+              <li>Unlimited live CSS &amp; box-model inspection</li>
+              <li>Keyboard navigation &amp; open Shadow DOM</li>
+              <li>1-click Clean CSS &amp; Tailwind v4 (Element)</li>
+              <li>Full Page Tokens drawer &amp; 1-click token copy</li>
+              <li>3 Brand Styleguide PDF exports</li>
+            </ul>
+            <a class="btn btn-secondary" href="[CHROME_WEB_STORE_URL]" target="_blank" rel="noopener noreferrer">
+              Install Free on Chrome
+            </a>
+          </article>
+
+          <article class="price-card featured">
+            <span class="popular-tag">Most Popular</span>
+            <h3 class="tier-name">Lifetime Solo</h3>
+            <div class="tier-price-row">
+              <span class="tier-price">$29</span>
+              <span class="tier-cadence">one-time</span>
+            </div>
+            <p class="tier-tagline">
+              All Pro features forever for solo developers and designers on up to 2 active devices.
+            </p>
+            <ul class="check-list">
+              <li><strong>Up to 2 active devices</strong> (e.g. desktop + laptop)</li>
+              <li>Tailwind v4 Subtree HTML &amp; JSX export</li>
+              <li>&#10022; Copy for AI compact component prompts</li>
+              <li>W3C <code>tokens.json</code>, Tailwind <code>@theme</code> &amp; Figma JSON</li>
+              <li>Unlimited White-Label Brand PDFs + custom logo</li>
+              <li>All <code>1.x</code> updates &middot; Transfer devices anytime</li>
+            </ul>
+            <a class="btn btn-primary" href="[CREEM_SOLO_CHECKOUT_URL]" target="_blank" rel="noopener noreferrer">
+              Buy Lifetime Solo ($29) &rarr;
+            </a>
+          </article>
+
+          <article class="price-card">
+            <h3 class="tier-name">Lifetime Team</h3>
+            <div class="tier-price-row">
+              <span class="tier-price">$79</span>
+              <span class="tier-cadence">one-time</span>
+            </div>
+            <p class="tier-tagline">
+              Everything in Solo for agencies, studios, and frontend teams. One payment, zero recurring fees.
+            </p>
+            <ul class="check-list">
+              <li><strong>Up to 5 active team seats</strong> on one key</li>
+              <li>All Pro features: Subtree JSX, AI prompts &amp; Token exports</li>
+              <li>Unlimited White-Label client Brand Styleguide PDFs</li>
+              <li>No per-seat accounts or password management</li>
+              <li>All <code>1.x</code> updates &middot; Reassign seats anytime</li>
+            </ul>
+            <a class="btn btn-secondary" href="[CREEM_TEAM_CHECKOUT_URL]" target="_blank" rel="noopener noreferrer">
+              Buy Lifetime Team ($79) &rarr;
+            </a>
+          </article>
+        </div>
+
+        <p class="pricing-footnote">
+          Secure checkout &amp; global VAT/tax handling by <strong>Creem</strong> &middot; Instant license key delivery &middot;
+          14-day money-back guarantee &middot; <a href="./terms.html">Full License Terms</a>
+        </p>
+      </section>
+
+      <section id="faq" class="block">
+        <div class="section-head">
+          <span class="eyebrow">Support &amp; FAQ</span>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-grid">
+          <article class="faq-item">
+            <h3>How do I activate TokenPeek Pro?</h3>
+            <p>
+              No TokenPeek account is required. After checkout on Creem, copy your license key from the receipt page or
+              confirmation email. Open any webpage in Chrome, click the <strong>TokenPeek</strong> toolbar icon, click
+              <strong>Pro</strong>, paste your key, and press <strong>Activate</strong>.
+            </p>
+          </article>
+
+          <article class="faq-item">
+            <h3>How do I move my license to another browser or PC?</h3>
+            <p>
+              Open TokenPeek on your current browser, click <strong>PRO &check;</strong>, and click
+              <strong>Deactivate on this browser</strong>. This immediately frees your device slot on Creem so you can
+              activate the same key on your new PC or Chrome profile. Lost a device? Email
+              <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a> and we will release the slot.
+            </p>
+          </article>
+
+          <article class="faq-item">
+            <h3>What is your refund policy?</h3>
+            <p>
+              Every Lifetime Solo ($29) and Lifetime Team ($79) purchase includes a straightforward
+              <strong>14-day money-back guarantee</strong>. If TokenPeek Pro isn't right for your workflow, contact
+              <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a> with your Creem order ID within 14 days for a full
+              refund (refunded keys are automatically disabled).
+            </p>
+          </article>
+
+          <article class="faq-item">
+            <h3>Does TokenPeek ever send my webpages to a server?</h3>
+            <p>
+              Never. All CSS inspection, Tailwind v4 conversion, token extraction, and PDF generation run 100% locally
+              in your browser. The only optional network request happens when you activate, validate, or deactivate a
+              Pro license key via our stateless proxy to Creem. Read our <a href="./privacy.html">Privacy Policy</a>.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>TokenPeek &middot; Updated November 2026 &middot; Support: <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a></span>
+      <div class="footer-links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms &amp; Refunds</a>
+        <a href="mailto:noxielabs@gmail.com">Contact Support</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

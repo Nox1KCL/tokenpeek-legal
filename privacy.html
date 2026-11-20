@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — TokenPeek for Chrome</title>
+  <meta name="description" content="Official Privacy Policy for TokenPeek, a 100% local-first Chrome extension for live CSS inspection, Tailwind v4 conversion, Design Token extraction, and Brand Styleguide PDF generation.">
+  <link rel="canonical" href="[GITHUB_PAGES_BASE_URL]/privacy.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%235752e4'/%3E%3Cstop offset='100%25' stop-color='%2387d2fe'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M9 11h14v3h-5.5v9h-3v-9H9v-3z' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f6f7fb;
+      --surface-strong: #eceffd;
+      --text: #131620;
+      --muted: #525b6e;
+      --border: #dfe3ee;
+      --accent: #5752e4;
+      --accent-secondary: #87d2fe;
+      --accent-soft: rgba(87, 82, 228, 0.1);
+      --ok: #1b7a43;
+      --ok-soft: rgba(27, 122, 67, 0.1);
+      --code-bg: #eef0f8;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1117;
+        --surface: #161923;
+        --surface-strong: #1d2233;
+        --text: #eef1f7;
+        --muted: #9aa3b6;
+        --border: #272d3d;
+        --accent: #87d2fe;
+        --accent-secondary: #5752e4;
+        --accent-soft: rgba(87, 82, 228, 0.2);
+        --ok: #5cd48c;
+        --ok-soft: rgba(92, 212, 140, 0.14);
+        --code-bg: #1e2332;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light dark;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      padding: 0 20px 64px;
+    }
+
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    header.site-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #5752e4, #87d2fe);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    nav.site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    nav.site-nav a {
+      padding: 6px 11px;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    nav.site-nav a:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    nav.site-nav a[aria-current="page"] {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    .meta {
+      margin: 0 0 28px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    h2 {
+      margin: 38px 0 12px;
+      font-size: 1.28rem;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 1.03rem;
+      line-height: 1.35;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    ul, ol {
+      margin: 0 0 16px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    a {
+      color: var(--accent);
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      opacity: 0.85;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.87em;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 5px;
+      word-break: break-word;
+    }
+
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid #5752e4;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 22px 0;
+    }
+
+    .callout.ok {
+      border-left-color: var(--ok);
+      background: var(--surface);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .callout p:last-child,
+    .callout ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      text-align: left;
+    }
+
+    thead th {
+      background: var(--surface);
+      font-weight: 600;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    footer.site-footer {
+      margin-top: 56px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px 20px;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 1.65rem;
+      }
+
+      header.site-header {
+        margin-bottom: 26px;
+      }
+
+      thead th,
+      tbody td {
+        padding: 9px 10px;
+      }
+    }
+
+    @media print {
+      header.site-header nav {
+        display: none;
+      }
+      body {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span>TokenPeek</span>
+      </a>
+      <nav class="site-nav" aria-label="Legal and support navigation">
+        <a href="./index.html">Home &amp; Pricing</a>
+        <a href="./privacy.html" aria-current="page">Privacy Policy</a>
+        <a href="./terms.html">Terms &amp; Refunds</a>
+      </nav>
+    </header>
+
+    <main>
+      <span class="eyebrow">Official Chrome Web Store Privacy Policy</span>
+      <h1>Privacy Policy</h1>
+      <p class="meta">
+        <strong>Effective Date:</strong> November 2026 &nbsp;&middot;&nbsp;
+        <strong>Product:</strong> TokenPeek (Chrome Extension, Manifest V3) &nbsp;&middot;&nbsp;
+        <strong>Contact:</strong> <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a>
+      </p>
+
+      <div class="callout ok">
+        <div class="callout-title">100% Local-First Architecture — Summary</div>
+        <p>
+          TokenPeek runs entirely inside your browser. All DOM inspection, CSS diffing, Tailwind v4 conversion,
+          AI prompt formatting, color clustering, Design Token extraction, and Brand Styleguide PDF generation happen
+          locally on your device. TokenPeek has <strong>no user database</strong>, <strong>no analytics</strong>,
+          <strong>no telemetry</strong>, and <strong>no tracking</strong>. If you use the Free tier, TokenPeek makes
+          <strong>zero outbound network requests</strong>.
+        </p>
+      </div>
+
+      <h2>1. 100% Local-First Processing</h2>
+      <p>
+        Every inspection and export feature in TokenPeek executes exclusively on your local machine inside the active
+        Chrome tab:
+      </p>
+      <ul>
+        <li>
+          <strong>Live DOM &amp; Box-Model Inspection:</strong> Element hover targeting, open Shadow DOM traversal,
+          keyboard DOM navigation, and box-model measurement run locally via an isolated Shadow DOM overlay
+          (<code>#tokenpeek-root</code>).
+        </li>
+        <li>
+          <strong>Hidden <code>about:blank</code> Baseline CSS Diffing:</strong> Computed styles are compared locally
+          against browser default styles from a temporary, hidden <code>about:blank</code> iframe and parent inherited
+          styles, alongside same-origin <code>document.styleSheets</code> rules for <code>:hover</code> state extraction.
+        </li>
+        <li>
+          <strong>Tailwind v4 &amp; AI Prompt Formatting:</strong> Conversion of clean CSS and component subtrees into
+          Tailwind v4 utility classes, HTML/JSX markup, and compact AI coding prompts is performed purely via local
+          rule-based logic — nothing is sent to any AI provider or cloud API.
+        </li>
+        <li>
+          <strong>Color Clustering &amp; Design Token Exports:</strong> Perceptual color clustering
+          (<code>&Delta;E &lt; 2.5</code>), HEX/OKLCH/HSL conversions, WCAG AA/AAA contrast calculations (via
+          <code>culori</code>), and exports to W3C <code>tokens.json</code>, Tailwind v4 <code>@theme</code> CSS, and
+          Figma Variables JSON run locally in memory.
+        </li>
+        <li>
+          <strong>Client-Side Brand Styleguide PDF Generation:</strong> Vector PDF styleguides are compiled entirely
+          inside your browser using <code>pdf-lib</code> and saved directly to your device. If a Pro user selects a
+          custom PNG or JPG agency logo (up to 2 MB) for white-label PDF export, the image is read strictly in
+          ephemeral browser memory to embed into the PDF and is never uploaded or persisted to storage.
+        </li>
+      </ul>
+
+      <h2>2. Data We Do Not Collect</h2>
+      <p>
+        TokenPeek <strong>does not collect, log, store remotely, share, or transmit</strong> any of the following:
+      </p>
+      <ul>
+        <li>Webpage DOM content, text, images, stylesheets, extracted design tokens, or generated PDFs</li>
+        <li>Website URLs, hostnames, tab titles, or browsing history</li>
+        <li>Personal identifying information (name, email address, account credentials, or hardware fingerprints)</li>
+        <li>Browser cookies, session tokens, form inputs, or clipboard contents</li>
+        <li>Usage analytics, telemetry events, crash dumps, or third-party advertising trackers</li>
+      </ul>
+
+      <h2>3. Extension Permissions &amp; Why Each Is Required</h2>
+      <p>
+        TokenPeek follows the principle of least privilege. It intentionally does <strong>not</strong> request
+        <code>&lt;all_urls&gt;</code>, <code>tabs</code>, <code>cookies</code>, <code>history</code>, or persistent
+        host-page background scripts. Below is every permission declared in TokenPeek's Manifest V3 configuration:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>Scope</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>activeTab</code></td>
+              <td>Current tab only, upon click</td>
+              <td>
+                Grants temporary access exclusively to the active tab when you click the TokenPeek toolbar icon so the
+                extension can inspect DOM elements and styles on demand. TokenPeek cannot read other tabs or run in the
+                background on pages you visit.
+              </td>
+            </tr>
+            <tr>
+              <td><code>scripting</code></td>
+              <td>On-demand injection</td>
+              <td>
+                Dynamically injects TokenPeek's isolated Shadow DOM HUD (<code>/content-scripts/content.js</code>) into
+                the active tab via <code>chrome.scripting.executeScript</code> when clicked, and toggles it off cleanly
+                on a second click or when pressing <code>Esc</code>.
+              </td>
+            </tr>
+            <tr>
+              <td><code>storage</code></td>
+              <td>Local browser profile only</td>
+              <td>
+                Persists lightweight local state inside <code>chrome.storage.local</code> (free Brand PDF export count,
+                one-time review banner dismissal state, and cached Pro license validation state). No data is synced to
+                external servers.
+              </td>
+            </tr>
+            <tr>
+              <td><code>host_permissions</code>:<br><code>https://*.workers.dev/*</code><br><em>(narrowed to TokenPeek's dedicated proxy origin in production builds)</em></td>
+              <td>TokenPeek License Verification Proxy only</td>
+              <td>
+                Permits TokenPeek's Manifest V3 background service worker to communicate exclusively with our stateless
+                Cloudflare Worker license proxy when a user voluntarily activates, validates, or deactivates a Creem Pro
+                license key, without host webpage CSP or CORS interference. No other external host is contacted.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Local Data Stored in <code>chrome.storage.local</code></h2>
+      <p>
+        TokenPeek stores only the following minimal state locally inside Chrome's extension storage area
+        (<code>chrome.storage.local</code>) on your device:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Storage Key</th>
+              <th>What Is Stored</th>
+              <th>Why It Is Stored</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>pdfExportCount</code></td>
+              <td>Non-negative integer (e.g., <code>0</code>–<code>3</code>)</td>
+              <td>Tracks how many of the 3 complimentary Brand Styleguide PDF exports have been used on the Free tier.</td>
+            </tr>
+            <tr>
+              <td><code>cssCopyCount</code> &amp; <code>reviewPromptDismissed</code></td>
+              <td>Integer counter &amp; boolean flag</td>
+              <td>
+                Shows a one-time, non-intrusive Chrome Web Store review banner after your 3rd successful "Copy CSS"
+                action and permanently hides it once clicked or dismissed.
+              </td>
+            </tr>
+            <tr>
+              <td><code>tokenpeekLicense</code></td>
+              <td>
+                Pro license record (<code>isPro</code>, <code>licenseKey</code>, Creem <code>instanceId</code>,
+                <code>tierLabel</code>, <code>activationLimit</code>, <code>lastValidatedAt</code> timestamp, and
+                optional <code>revokedReason</code>) — populated only while Pro is activated
+              </td>
+              <td>
+                Caches your Pro status locally so Pro features unlock instantaneously, supports silent 24-hour
+                background validation with a 7-day offline grace window, and enables 1-click remote device-slot release
+                when you deactivate TokenPeek on a browser. Cleared immediately upon deactivation or revocation.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>5. Optional External Network Requests (Creem Pro Licensing)</h2>
+      <p>
+        TokenPeek makes <strong>no network requests at all</strong> unless you voluntarily enter a Pro license key.
+      </p>
+      <ul>
+        <li>
+          <strong>Stateless Proxy Architecture &amp; Background Isolation:</strong> When you activate, validate (every
+          24 hours), or deactivate a Pro license key, TokenPeek's Manifest V3 background service worker sends an HTTPS
+          <code>POST</code> request to our minimal, stateless <strong>Cloudflare Worker proxy</strong>
+          (<code>/v1/activate</code>, <code>/v1/validate</code>, or <code>/v1/deactivate</code>). The worker attaches
+          our server-side API credential and forwards the request to <strong>Creem's License API</strong>
+          (<code>https://api.creem.io/v1/licenses/...</code>). Our proxy has <strong>no database</strong>, performs
+          <strong>no request logging</strong>, and never receives or stores webpage content, URLs, or personal data.
+        </li>
+        <li>
+          <strong>Minimal Payload:</strong> Requests transmit strictly two fields required by Creem's license lifecycle:
+          <ul>
+            <li>
+              <code>/v1/activate</code>: your license <code>key</code> and an anonymous, non-personal browser label
+              <code>instance_name</code> (such as <code>Chrome &middot; macOS &middot; a7f3</code>).
+            </li>
+            <li>
+              <code>/v1/validate</code> &amp; <code>/v1/deactivate</code>: your license <code>key</code> and the opaque
+              <code>instance_id</code> returned by Creem during activation.
+            </li>
+          </ul>
+          No webpage DOM, CSS, URLs, IP-linked profiles, or user account identifiers are ever sent by TokenPeek.
+        </li>
+        <li>
+          <strong>Payments &amp; Merchant of Record (Creem):</strong> All Pro purchases, invoices, VAT/sales taxes, and
+          refunds are processed exclusively by <strong>Creem</strong> as Merchant of Record. TokenPeek never receives,
+          processes, or stores your payment card details or billing address. Please review
+          <a href="https://www.creem.io/privacy" target="_blank" rel="noopener noreferrer">Creem's Privacy Policy</a>
+          for details on how Creem handles purchase transaction data.
+        </li>
+        <li>
+          <strong>User-Initiated Links:</strong> Clicking checkout buttons inside the Pro modal, the optional one-time
+          Chrome Web Store review banner, or legal documentation links simply opens the destination URL in a new browser
+          tab at your explicit request.
+        </li>
+      </ul>
+
+      <h2>6. Chrome Web Store User Data Policy &amp; Limited Use Compliance</h2>
+      <div class="callout">
+        <div class="callout-title">Limited Use Disclosure</div>
+        <p>
+          TokenPeek's use and transfer of information received from Google APIs and Chrome Extension APIs strictly
+          adheres to the
+          <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq" target="_blank" rel="noopener noreferrer">Chrome Web Store User Data Policy</a>,
+          including the <strong>Limited Use requirements</strong>.
+        </p>
+      </div>
+      <p>Specifically, TokenPeek guarantees that:</p>
+      <ul>
+        <li>
+          Access to active-tab DOM and CSS data is strictly limited to providing the user-facing CSS inspection,
+          Tailwind v4 conversion, Design Token extraction, and local PDF export features you explicitly invoke.
+        </li>
+        <li>
+          No webpage data or browsing data is ever transferred to third parties (the sole external transmission is your
+          voluntarily entered license key and anonymous browser instance ID sent through our stateless proxy to Creem to
+          activate, validate, or deactivate Pro entitlement).
+        </li>
+        <li>
+          No data is ever used or sold for personalized advertising, retargeting, data brokerage, or determining
+          creditworthiness or lending eligibility.
+        </li>
+        <li>
+          No human (including the developer) reads or receives any webpage content you inspect with TokenPeek.
+        </li>
+      </ul>
+
+      <h2>7. Data Retention &amp; How to Delete All Data</h2>
+      <p>
+        Because TokenPeek stores no user data on remote servers, you have immediate and complete control over all local
+        extension data:
+      </p>
+      <ol>
+        <li>
+          <strong>Deactivate &amp; Release Your Pro License:</strong> Open TokenPeek on any webpage, click
+          <strong>PRO &check;</strong> in the floating control bar, and click
+          <strong>Deactivate on this browser</strong>. TokenPeek releases the browser slot via Creem's API and
+          immediately wipes your stored license key and instance ID from <code>chrome.storage.local</code>.
+        </li>
+        <li>
+          <strong>Delete All Local Extension Data:</strong> Open <code>chrome://extensions</code>, locate
+          <strong>TokenPeek</strong>, and click <strong>Remove</strong>. Chrome immediately and permanently wipes the
+          entire <code>chrome.storage.local</code> sandbox for TokenPeek (including <code>pdfExportCount</code>,
+          <code>cssCopyCount</code>, <code>reviewPromptDismissed</code>, and <code>tokenpeekLicense</code>).
+        </li>
+        <li>
+          <strong>Purchase &amp; Billing Records:</strong> To access or delete billing records held by Creem, use your
+          Creem order receipt or contact Creem under
+          <a href="https://www.creem.io/privacy" target="_blank" rel="noopener noreferrer">Creem's Privacy Policy</a>.
+        </li>
+      </ol>
+
+      <h2>8. Policy Updates &amp; Contact</h2>
+      <p>
+        If we update this Privacy Policy to reflect new features or regulatory requirements, we will publish the
+        revised version at <code>[GITHUB_PAGES_BASE_URL]/privacy.html</code> with an updated effective date. We will
+        never weaken our core local-first privacy commitment without clear notice.
+      </p>
+      <p>
+        Questions about privacy, permissions, or data handling? Contact us at
+        <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a>.
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      <span>TokenPeek &middot; Effective November 2026 &middot; <code>[GITHUB_PAGES_BASE_URL]</code></span>
+      <div class="footer-links">
+        <a href="./index.html">Home &amp; Pricing</a>
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms &amp; Refunds</a>
+        <a href="mailto:noxielabs@gmail.com">noxielabs@gmail.com</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
