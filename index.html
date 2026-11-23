@@ -36,7 +36,7 @@
   <header class="site-header">
     <div class="container nav-inner">
       <a class="brand" href="./index.html">
-        <img src="./assets/favicon.svg" width="28" height="28" alt="" aria-hidden="true">
+        <svg viewBox="0 0 128 128" width="28" height="28" aria-hidden="true"><rect width="128" height="128" rx="30" fill="#0B1712"/><rect x="1.5" y="1.5" width="125" height="125" rx="28.5" fill="none" stroke="#2B5240" stroke-width="3"/><rect x="62" y="58" width="44" height="44" rx="10" fill="#F6C453"/><path d="M36 26 L36 91.6 L54.45 73.15 L66.75 101.85 L77 97.75 L64.7 69.05 L89.3 69.05 Z" fill="#5EE6A8" stroke="#0B1712" stroke-width="5.5" stroke-linejoin="round" paint-order="stroke"/></svg>
         <span>Token<span class="brand-peek">Peek</span></span>
       </a>
 
@@ -101,19 +101,46 @@
     <section class="section-demo" aria-label="Product preview">
       <div class="container">
         <div class="product-window">
-          <div class="window-bar" aria-hidden="true">
-            <div class="window-dots">
+          <div class="window-bar">
+            <div class="window-dots" aria-hidden="true">
               <span></span>
               <span></span>
               <span></span>
             </div>
+            <div class="window-tabs" role="tablist" aria-label="Product views">
+              <button class="window-tab" type="button" role="tab" id="tab-tailwind" aria-selected="true" aria-controls="panel-tailwind">Tailwind v4</button>
+              <button class="window-tab" type="button" role="tab" id="tab-hover" aria-selected="false" aria-controls="panel-hover" tabindex="-1">Hover</button>
+              <button class="window-tab" type="button" role="tab" id="tab-colors" aria-selected="false" aria-controls="panel-colors" tabindex="-1">Colors</button>
+              <button class="window-tab" type="button" role="tab" id="tab-wcag" aria-selected="false" aria-controls="panel-wcag" tabindex="-1">WCAG</button>
+              <button class="window-tab" type="button" role="tab" id="tab-exports" aria-selected="false" aria-controls="panel-exports" tabindex="-1">Exports &amp; AI</button>
+              <button class="window-tab" type="button" role="tab" id="tab-video" aria-selected="false" aria-controls="panel-video" tabindex="-1">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><polygon points="2.5,1.5 10.5,6 2.5,10.5"/></svg>
+                Video
+              </button>
+            </div>
           </div>
+
           <div class="window-media">
-            <!-- Static screenshot placeholder: replace with <video autoplay loop muted playsinline poster="./assets/demo-poster.png"><source src="./assets/demo.mp4" type="video/mp4"></video> once assets/demo.mp4 is recorded. -->
-            <picture>
-              <source srcset="./assets/demo-poster.webp" type="image/webp">
-              <img src="./assets/demo-poster.png" width="1440" height="810" alt="TokenPeek live hover inspector showing box-model dimensions, computed typography, WCAG AAA contrast badge, and Tailwind v4 utility classes on a dark webpage" decoding="async" fetchpriority="high">
-            </picture>
+            <div class="window-panel" id="panel-tailwind" role="tabpanel" aria-labelledby="tab-tailwind">
+              <img src="./assets/screens/02-tailwind.webp" width="1174" height="615" alt="TokenPeek pinned inspector converting an element to Tailwind v4 utility classes including hover states" decoding="async" fetchpriority="high">
+            </div>
+            <div class="window-panel" id="panel-hover" role="tabpanel" aria-labelledby="tab-hover" hidden>
+              <img src="./assets/screens/01-hover.webp" width="1174" height="615" alt="TokenPeek live 60 fps hover inspector showing dimensions, font, color swatches, and keyboard controls" loading="lazy" decoding="async">
+            </div>
+            <div class="window-panel" id="panel-colors" role="tabpanel" aria-labelledby="tab-colors" hidden>
+              <img src="./assets/screens/03-colors.webp" width="1174" height="615" alt="TokenPeek Page Tokens drawer clustering 33 raw shades into 16 clean OKLCH color tokens" loading="lazy" decoding="async">
+            </div>
+            <div class="window-panel" id="panel-wcag" role="tabpanel" aria-labelledby="tab-wcag" hidden>
+              <img src="./assets/screens/04-wcag.webp" width="1174" height="615" alt="TokenPeek Page Tokens drawer showing WCAG AA, AAA, and Fail contrast ratios on extracted colors" loading="lazy" decoding="async">
+            </div>
+            <div class="window-panel" id="panel-exports" role="tabpanel" aria-labelledby="tab-exports" hidden>
+              <img src="./assets/screens/05-exports.webp" width="1174" height="615" alt="TokenPeek Subtree JSX, Copy for AI prompt, W3C tokens.json, Tailwind @theme, Figma JSON, and white-label PDF export" loading="lazy" decoding="async">
+            </div>
+            <div class="window-panel" id="panel-video" role="tabpanel" aria-labelledby="tab-video" hidden>
+              <video id="demo-video" controls playsinline preload="none" width="1280" height="720" poster="./assets/demo-poster.png">
+                <source src="./assets/demo.mp4" type="video/mp4">
+              </video>
+            </div>
           </div>
         </div>
       </div>
@@ -391,7 +418,7 @@
     <div class="container footer-inner">
       <div class="footer-left">
         <a class="brand" href="./index.html">
-          <img src="./assets/favicon.svg" width="24" height="24" alt="" aria-hidden="true">
+          <svg viewBox="0 0 128 128" width="24" height="24" aria-hidden="true"><rect width="128" height="128" rx="30" fill="#0B1712"/><rect x="1.5" y="1.5" width="125" height="125" rx="28.5" fill="none" stroke="#2B5240" stroke-width="3"/><rect x="62" y="58" width="44" height="44" rx="10" fill="#F6C453"/><path d="M36 26 L36 91.6 L54.45 73.15 L66.75 101.85 L77 97.75 L64.7 69.05 L89.3 69.05 Z" fill="#5EE6A8" stroke="#0B1712" stroke-width="5.5" stroke-linejoin="round" paint-order="stroke"/></svg>
           <span>Token<span class="brand-peek">Peek</span></span>
         </a>
         <span class="footer-meta">Updated November 2026</span>
@@ -407,12 +434,44 @@
   <script>
     (function () {
       var m = document.getElementById("mobile-menu");
-      if (!m) return;
-      m.addEventListener("click", function (e) {
-        if (e.target.closest(".nav-drawer a")) m.removeAttribute("open");
+      if (m) {
+        m.addEventListener("click", function (e) {
+          if (e.target.closest(".nav-drawer a")) m.removeAttribute("open");
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && m.hasAttribute("open")) m.removeAttribute("open");
+        });
+      }
+
+      var tablist = document.querySelector(".window-tabs");
+      if (!tablist) return;
+      var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+      var video = document.getElementById("demo-video");
+
+      function selectTab(next, focusTab) {
+        tabs.forEach(function (tab) {
+          var active = tab === next;
+          tab.setAttribute("aria-selected", active ? "true" : "false");
+          tab.tabIndex = active ? 0 : -1;
+          var panel = document.getElementById(tab.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !active;
+        });
+        if (video && next.id !== "tab-video" && !video.paused) video.pause();
+        if (focusTab) next.focus();
+      }
+
+      tablist.addEventListener("click", function (e) {
+        var tab = e.target.closest('[role="tab"]');
+        if (tab) selectTab(tab, false);
       });
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && m.hasAttribute("open")) m.removeAttribute("open");
+
+      tablist.addEventListener("keydown", function (e) {
+        var i = tabs.indexOf(document.activeElement);
+        if (i < 0) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); selectTab(tabs[(i + 1) % tabs.length], true); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); selectTab(tabs[(i - 1 + tabs.length) % tabs.length], true); }
+        else if (e.key === "Home") { e.preventDefault(); selectTab(tabs[0], true); }
+        else if (e.key === "End") { e.preventDefault(); selectTab(tabs[tabs.length - 1], true); }
       });
     })();
   </script>

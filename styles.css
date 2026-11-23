@@ -236,10 +236,17 @@ kbd {
   color: var(--color-text);
 }
 
-.brand img {
+.brand img,
+.brand svg {
   width: 28px;
   height: 28px;
   display: block;
+  flex-shrink: 0;
+}
+
+.site-footer .brand svg {
+  width: 24px;
+  height: 24px;
 }
 
 .brand-peek {
@@ -532,19 +539,20 @@ kbd {
 }
 
 .window-bar {
-  height: 36px;
-  padding: 0 16px;
+  min-height: 44px;
+  padding: 0 12px 0 16px;
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-surface);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .window-dots {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .window-dots span {
@@ -555,16 +563,74 @@ kbd {
   display: block;
 }
 
+.window-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.window-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.window-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+
+.window-tab:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-hover);
+}
+
+.window-tab[aria-selected="true"] {
+  color: var(--color-text);
+  background-color: var(--color-bg-alt);
+  border-bottom-color: var(--color-accent);
+}
+
+.window-tab:focus-visible {
+  outline-offset: -3px;
+}
+
 .window-media {
-  background-color: #090C0B;
+  background-color: var(--color-bg);
+}
+
+.window-panel {
+  aspect-ratio: 1174 / 615;
+  background-color: var(--color-bg);
+}
+
+.window-panel[hidden] {
+  display: none;
 }
 
 .window-media img,
 .window-media video {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
+  height: 100%;
+  object-fit: contain;
+  background-color: var(--color-bg);
 }
 
 /* --- Features (3x2 + Wide Color Clustering Card) --- */
